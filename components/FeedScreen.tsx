@@ -1,6 +1,6 @@
-import React from 'react';
-import { View, Text, FlatList, Pressable, Image } from 'react-native';
-import { Calendar, MapPin, Heart } from 'lucide-react-native';
+import React, { useState } from 'react';
+import { View, Text, FlatList, Pressable, Image, TextInput } from 'react-native';
+import { Calendar, MapPin, Heart, Search } from 'lucide-react-native';
 import { useRouter } from 'expo-router';
 import * as Haptics from 'expo-haptics';
 import { MOSCOW_EVENTS, type MeetEvent } from '@/lib/mockData';
@@ -34,11 +34,30 @@ function HeartButton({ event }: { event: MeetEvent }) {
 
 export function FeedScreen() {
   const router = useRouter();
+  const [searchQuery, setSearchQuery] = useState('');
+
+  const filteredEvents = MOSCOW_EVENTS.filter(e =>
+    e.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
+    e.category.toLowerCase().includes(searchQuery.toLowerCase())
+  );
 
   return (
     <View className="flex-1 bg-background pt-2">
+      <View className="px-4 mb-4">
+        <View className="flex-row items-center bg-card rounded-2xl border border-border px-4 py-3">
+          <Search size={20} color="#9ca3af" />
+          <TextInput
+            className="flex-1 ml-3 text-foreground"
+            placeholder="Поиск мероприятий..."
+            placeholderTextColor="#9ca3af"
+            value={searchQuery}
+            onChangeText={setSearchQuery}
+          />
+        </View>
+      </View>
+
       <FlatList
-        data={MOSCOW_EVENTS}
+        data={filteredEvents}
         keyExtractor={(item) => item.id}
         contentContainerStyle={{ paddingBottom: 20 }}
         showsVerticalScrollIndicator={false}

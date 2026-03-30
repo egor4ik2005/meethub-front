@@ -1,7 +1,7 @@
 import React from 'react';
-import { View, Text, ScrollView, Image, Pressable, Dimensions } from 'react-native';
+import { View, Text, ScrollView, Image, Pressable, Dimensions, Share } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
-import { ArrowLeft, X, Map, Heart, Calendar, MapPin } from 'lucide-react-native';
+import { ArrowLeft, Map, Heart, Calendar, MapPin, Share as ShareIcon } from 'lucide-react-native';
 import { useRouter, useLocalSearchParams } from 'expo-router';
 import * as Haptics from 'expo-haptics';
 import { MOSCOW_EVENTS } from '@/lib/mockData';
@@ -23,6 +23,16 @@ export default function EventDetailsScreen() {
       liked ? Haptics.ImpactFeedbackStyle.Light : Haptics.ImpactFeedbackStyle.Medium
     );
     toggleFavorite(event);
+  };
+
+  const handleShare = async () => {
+    try {
+      await Share.share({
+        message: `Пойдем на ${event.title}! ${event.date} в ${event.time}. Место: ${event.location}`,
+      });
+    } catch (error: any) {
+      console.error(error.message);
+    }
   };
 
   return (
@@ -52,10 +62,10 @@ export default function EventDetailsScreen() {
               <ArrowLeft size={22} color="white" />
             </Pressable>
             <Pressable
-              onPress={() => router.back()}
+              onPress={handleShare}
               className="bg-black/50 p-3 rounded-full"
             >
-              <X size={22} color="white" />
+              <ShareIcon size={22} color="white" />
             </Pressable>
           </SafeAreaView>
         </View>
@@ -97,6 +107,30 @@ export default function EventDetailsScreen() {
                 <Text className="text-white text-base flex-1">{item}</Text>
               </View>
             ))}
+          </View>
+
+          {/* Кто идет */}
+          <Text className="text-muted-foreground text-xs uppercase font-bold tracking-widest mb-3">
+            КТО ИДЕТ
+          </Text>
+          <View className="flex-row items-center mb-8">
+            <View className="flex-row">
+              {[
+                'https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=100&h=100&fit=crop',
+                'https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?w=100&h=100&fit=crop',
+                'https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=100&h=100&fit=crop',
+                'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=100&h=100&fit=crop',
+              ].map((url, i) => (
+                <Image
+                  key={i}
+                  source={{ uri: url }}
+                  style={{ width: 36, height: 36, borderRadius: 18, borderWidth: 2, borderColor: '#121212', marginLeft: i === 0 ? 0 : -12 }}
+                />
+              ))}
+            </View>
+            <Text className="text-muted-foreground ml-3 text-sm font-medium leading-tight">
+              +42 ваших друзей{'\n'}и других участников
+            </Text>
           </View>
 
           {/* Место */}
