@@ -8,7 +8,7 @@ import {
   Alert,
 } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
-import { Settings, Ticket, Bell, CreditCard, LogOut, MapPin, Calendar, CheckCircle, Clock } from 'lucide-react-native';
+import { Settings, Ticket, Bell, CreditCard, LogOut, MapPin, Calendar, CheckCircle, Clock, ArrowLeft, Star } from 'lucide-react-native';
 import { useRouter } from 'expo-router';
 import { MOSCOW_EVENTS, type MeetEvent } from '@/lib/mockData';
 import { useFavorites } from '@/lib/FavoritesContext';
@@ -43,7 +43,7 @@ function BrandText({ size = 14 }: { size?: number }) {
 }
 
 // ── Compact event card ──────────────────────────────────────────
-function EventCard({ item, onPress }: { item: ProfileEvent; onPress: () => void }) {
+function EventCard({ item, onPress, rating, onRate }: { item: ProfileEvent; onPress: () => void; rating?: number; onRate?: (val: number) => void }) {
   const isVisited  = item.status === 'visited';
   const isUpcoming = item.status === 'upcoming';
 
@@ -51,9 +51,10 @@ function EventCard({ item, onPress }: { item: ProfileEvent; onPress: () => void 
     <Pressable
       onPress={onPress}
       style={({ pressed }) => ({ opacity: pressed ? 0.85 : 1 })}
-      className="flex-row items-center bg-card rounded-2xl mb-3 overflow-hidden border border-border"
+      className="bg-card rounded-2xl mb-3 overflow-hidden border border-border"
     >
-      <Image source={{ uri: item.imageUrl }} className="w-20 h-20" resizeMode="cover" />
+      <View className="flex-row items-center">
+        <Image source={{ uri: item.imageUrl }} className="w-20 h-20" resizeMode="cover" />
       <View className="flex-1 px-3 py-2 gap-1">
         <Text className="text-foreground font-bold text-sm" numberOfLines={1}>{item.title}</Text>
         <View className="flex-row items-center gap-1">
@@ -78,6 +79,26 @@ function EventCard({ item, onPress }: { item: ProfileEvent; onPress: () => void 
           </View>
         )}
       </View>
+    </View>
+
+      {isVisited && onRate && (
+        <View className="px-4 pb-3 pt-2 flex-row items-center justify-between border-t border-border mt-2">
+          <Text className="text-muted-foreground text-xs font-medium">
+            {rating ? 'Оценка сохранена' : 'Оцените мероприятие:'}
+          </Text>
+          <View className="flex-row gap-1">
+            {[1, 2, 3, 4, 5].map((star) => (
+              <Pressable key={star} onPress={() => { if (!rating) onRate(star); }}>
+                <Star
+                  size={18}
+                  color={rating && star <= rating ? '#eab308' : '#374151'}
+                  fill={rating && star <= rating ? '#eab308' : 'transparent'}
+                />
+              </Pressable>
+            ))}
+          </View>
+        </View>
+      )}
     </Pressable>
   );
 }
@@ -101,6 +122,7 @@ function EmptyState({ onFind }: { onFind: () => void }) {
 export default function ProfileScreen() {
   const router = useRouter();
   const [activeTab, setActiveTab] = useState<'favorites' | 'history'>('favorites');
+  const [ratings, setRatings] = useState<Record<string, number>>({});
   const { favorites } = useFavorites();
   const { unreadCount } = useNotifications();
 
@@ -127,8 +149,11 @@ export default function ProfileScreen() {
     <SafeAreaView className="flex-1 bg-background" edges={['top']}>
       <ScrollView showsVerticalScrollIndicator={false} contentContainerStyle={{ paddingBottom: 32 }}>
 
-        {/* ── Settings icon ─────────────────── */}
-        <View className="flex-row justify-end px-4 pt-2">
+        {/* ── Header ────────────────────────── */}
+        <View className="flex-row justify-between px-4 pt-2">
+          <Pressable className="p-2" onPress={() => router.back()}>
+            <ArrowLeft size={22} color="#9ca3af" />
+          </Pressable>
           <Pressable className="p-2">
             <Settings size={22} color="#9ca3af" />
           </Pressable>
@@ -205,6 +230,8 @@ export default function ProfileScreen() {
               <EventCard
                 key={item.id}
                 item={item}
+                rating={ratings[item.id]}
+                onRate={(val) => setRatings(prev => ({ ...prev, [item.id]: val }))}
                 onPress={() => router.push({ pathname: '/details', params: { id: item.id } })}
               />
             ))
