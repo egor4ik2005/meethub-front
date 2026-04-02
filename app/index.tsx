@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { useState } from 'react';
-import { View, Text, Pressable } from 'react-native';
+import { View, Text, Pressable, LayoutChangeEvent } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { User, Bell } from 'lucide-react-native';
 import { useRouter } from 'expo-router';
@@ -37,7 +37,12 @@ function BellButton() {
 
 export default function Screen() {
   const [activeTab, setActiveTab] = useState<'map' | 'feed'>('map');
+  const [feedHeight, setFeedHeight] = useState(0);
   const router = useRouter();
+
+  const onContentLayout = (e: LayoutChangeEvent) => {
+    setFeedHeight(e.nativeEvent.layout.height);
+  };
 
   return (
     <SafeAreaView className="flex-1 bg-background" edges={['top', 'left', 'right']}>
@@ -84,8 +89,11 @@ export default function Screen() {
       </View>
 
       {/* Content */}
-      <View className="flex-1 bg-background">
-        {activeTab === 'map' ? <MapScreen /> : <FeedScreen />}
+      <View className="flex-1" onLayout={onContentLayout}>
+        {activeTab === 'map'
+          ? <MapScreen />
+          : <FeedScreen availableHeight={feedHeight} />
+        }
       </View>
     </SafeAreaView>
   );
