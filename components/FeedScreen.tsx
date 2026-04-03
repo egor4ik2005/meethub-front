@@ -13,7 +13,7 @@ import { Image } from 'expo-image';
 import { Calendar, MapPin, Heart, Share2, ChevronRight } from 'lucide-react-native';
 import { useRouter } from 'expo-router';
 import * as Haptics from 'expo-haptics';
-import { MOSCOW_EVENTS, type MeetEvent } from '@/lib/mockData';
+import { MOSCOW_EVENTS, ORGANIZERS, type MeetEvent } from '@/lib/mockData';
 import { useFavorites } from '@/lib/FavoritesContext';
 
 // ─── Toast ────────────────────────────────────────────────────────────────────
@@ -79,9 +79,17 @@ function ActionColumn({
   event: MeetEvent;
   onToast: (msg: string) => void;
 }) {
+  const router = useRouter();
   const { isFavorite, toggleFavorite } = useFavorites();
   const liked = isFavorite(event.id);
   const scaleAnim = useRef(new Animated.Value(1)).current;
+
+  const organizer = ORGANIZERS.find((o) => o.id === event.organizerId) ?? ORGANIZERS[0];
+
+  const handleAvatarPress = async () => {
+    await Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light);
+    router.push({ pathname: '/public-profile' as any, params: { userId: event.organizerId } });
+  };
 
   const handleLike = async () => {
     await Haptics.impactAsync(
@@ -119,23 +127,28 @@ function ActionColumn({
     >
       {/* Organizer avatar */}
       <View style={{ alignItems: 'center', gap: 0 }}>
-        <View
-          style={{
-            width: 48,
-            height: 48,
-            borderRadius: 24,
-            backgroundColor: '#1a1a2e',
-            borderWidth: 2,
-            borderColor: '#10b981',
-            overflow: 'hidden',
-            alignItems: 'center',
-            justifyContent: 'center',
-          }}
+        <Pressable
+          onPress={handleAvatarPress}
+          style={({ pressed }) => ({ opacity: pressed ? 0.75 : 1 })}
         >
-          <Text style={{ color: '#10b981', fontWeight: '800', fontSize: 18 }}>
-            {event.title.charAt(0)}
-          </Text>
-        </View>
+          <View
+            style={{
+              width: 48,
+              height: 48,
+              borderRadius: 24,
+              backgroundColor: organizer.avatarColor,
+              borderWidth: 2,
+              borderColor: '#10b981',
+              overflow: 'hidden',
+              alignItems: 'center',
+              justifyContent: 'center',
+            }}
+          >
+            <Text style={{ color: '#fff', fontWeight: '800', fontSize: 18 }}>
+              {organizer.avatarInitial}
+            </Text>
+          </View>
+        </Pressable>
         {/* Plus badge */}
         <View
           style={{

@@ -31,7 +31,14 @@
     },
     "plugins": [
       "expo-router",
-      "expo-image"
+      "expo-image",
+      "expo-av",
+      [
+        "expo-image-picker",
+        {
+          "photosPermission": "Разрешите MeetHub доступ к вашей галерее для выбора видео мероприятия."
+        }
+      ]
     ],
     "experiments": {
       "typedRoutes": true
