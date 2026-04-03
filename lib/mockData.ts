@@ -12,7 +12,57 @@ export interface MeetEvent {
   category: string;
   imageUrl: string;
   program: string[];
+  organizerId: string;
 }
+
+export interface Organizer {
+  id: string;
+  name: string;
+  bio: string;
+  followers: number;
+  rating: number;
+  avatarInitial: string;
+  avatarColor: string;
+}
+
+export const ORGANIZERS: Organizer[] = [
+  {
+    id: 'org1',
+    name: 'Алексей Новиков',
+    bio: 'Организую лучшие техно-вечеринки в Мск 🎧',
+    followers: 12400,
+    rating: 4.9,
+    avatarInitial: 'А',
+    avatarColor: '#0f766e',
+  },
+  {
+    id: 'org2',
+    name: 'Мария Соколова',
+    bio: 'Культурные события, выставки и арт-пространства 🎨',
+    followers: 8750,
+    rating: 4.8,
+    avatarInitial: 'М',
+    avatarColor: '#7c3aed',
+  },
+  {
+    id: 'org3',
+    name: 'Дмитрий Волков',
+    bio: 'Стендап-продюсер. Смех — наш бизнес 😂',
+    followers: 34200,
+    rating: 4.7,
+    avatarInitial: 'Д',
+    avatarColor: '#b45309',
+  },
+  {
+    id: 'org4',
+    name: 'Елена Захарова',
+    bio: 'IT-конференции и tech-митапы Москвы 💻',
+    followers: 19800,
+    rating: 4.95,
+    avatarInitial: 'Е',
+    avatarColor: '#0369a1',
+  },
+];
 
 export const MOSCOW_EVENTS: MeetEvent[] = [
   {
@@ -30,6 +80,7 @@ export const MOSCOW_EVENTS: MeetEvent[] = [
     category: 'Музыка',
     imageUrl:
       'https://picsum.photos/id/111/800/1200',
+    organizerId: 'org1',
     program: [
       '12:00 — Открытие и регистрация',
       '14:00 — Первый блок выступлений',
@@ -52,6 +103,7 @@ export const MOSCOW_EVENTS: MeetEvent[] = [
     category: 'Искусство',
     imageUrl:
       'https://picsum.photos/id/112/800/1200',
+    organizerId: 'org2',
     program: [
       '11:00 — Открытие галерей',
       '13:00 — Лекция куратора выставки',
@@ -74,6 +126,7 @@ export const MOSCOW_EVENTS: MeetEvent[] = [
     category: 'Дизайн',
     imageUrl:
       'https://picsum.photos/id/113/800/1200',
+    organizerId: 'org2',
     program: [
       '10:00 — Открытие маркета',
       '12:00 — Лекция "Тренды дизайна 2024"',
@@ -96,6 +149,7 @@ export const MOSCOW_EVENTS: MeetEvent[] = [
     category: 'Конференция',
     imageUrl:
       'https://picsum.photos/id/114/800/1200',
+    organizerId: 'org4',
     program: [
       '18:00 — Регистрация и welcome drinks',
       '19:00 — Открытие и первый блок докладов',
@@ -118,6 +172,7 @@ export const MOSCOW_EVENTS: MeetEvent[] = [
     category: 'Музыка',
     imageUrl:
       'https://picsum.photos/id/115/800/1200',
+    organizerId: 'org1',
     program: [
       '20:00 — Открытие и разминочный сет',
       '20:30 — Выступление Moscow Jazz Quartet',
@@ -138,6 +193,7 @@ export const MOSCOW_EVENTS: MeetEvent[] = [
     description: 'Сильная драма о любви, долге и чести. Классическая постановка в современном прочтении, которая не оставит равнодушным ни одного зрителя.',
     category: 'Спектакль',
     imageUrl: 'https://images.unsplash.com/photo-1507676184212-d03ab07a01bf?w=800',
+    organizerId: 'org2',
     program: ['18:30 — Сбор гостей', '19:00 — Начало спектакля', '20:30 — Антракт', '22:00 — Финал'],
   },
   {
@@ -153,6 +209,7 @@ export const MOSCOW_EVENTS: MeetEvent[] = [
     description: 'Вечная история любви в необычном пространстве театра «Скарабей». Пилигримы, Верона и судьба, предначертанная звездами.',
     category: 'Спектакль',
     imageUrl: 'https://images.unsplash.com/photo-1503095396549-807a8bc3667c?w=800',
+    organizerId: 'org2',
     program: ['17:30 — Открытие дверей', '18:00 — Начало действия', '20:00 — Обсуждение с актерами'],
   },
   {
@@ -168,6 +225,7 @@ export const MOSCOW_EVENTS: MeetEvent[] = [
     description: 'Масштабная постановка по пьесе Генрика Ибсена. Путешествие героя сквозь время и пространство в поисках самого себя.',
     category: 'Спектакль',
     imageUrl: 'https://images.unsplash.com/photo-1514302240736-b1fee5985889?w=800',
+    organizerId: 'org2',
     program: ['18:00 — Welcome drink', '18:30 — Пролог', '21:00 — Финальная сцена'],
   },
   {
@@ -183,6 +241,7 @@ export const MOSCOW_EVENTS: MeetEvent[] = [
     description: 'Сольный стендап-концерт одного из самых ярких комиков нового поколения. Острый юмор, личные истории и невероятная харизма.',
     category: 'Стендап',
     imageUrl: 'https://images.unsplash.com/photo-1585699324551-f6c309eedee6?w=800',
+    organizerId: 'org3',
     program: ['18:30 — Вход', '19:00 — Разогрев', '19:20 — Кирилл Мазур', '21:00 — Фотосессия'],
   },
   {
@@ -198,6 +257,7 @@ export const MOSCOW_EVENTS: MeetEvent[] = [
     description: 'Комики дают советы зрителям в формате импровизации. Смешно, местами нелепо, но всегда жизненно.',
     category: 'Стендап',
     imageUrl: 'https://images.unsplash.com/photo-1527224857830-43a7acc85260?w=800',
+    organizerId: 'org3',
     program: ['20:00 — Начало шоу', '21:30 — Завершение'],
   },
   {
@@ -213,6 +273,7 @@ export const MOSCOW_EVENTS: MeetEvent[] = [
     description: 'Проверка материала от опытных комиков. Только лучшие шутки, которые скоро попадут в ТВ-проекты.',
     category: 'Стендап',
     imageUrl: 'https://images.unsplash.com/photo-1549490349-8643362247b5?w=800',
+    organizerId: 'org3',
     program: ['19:30 — Старт', '21:00 — Конец'],
   },
   {
@@ -228,6 +289,7 @@ export const MOSCOW_EVENTS: MeetEvent[] = [
     description: 'Большой сольный концерт самого стильного комика. Тонкие наблюдения и интеллигентный юмор.',
     category: 'Стендап',
     imageUrl: 'https://images.unsplash.com/photo-1481162853351-d410ae266070?w=800',
+    organizerId: 'org3',
     program: ['18:00 — Начало'],
   },
   {
@@ -243,6 +305,7 @@ export const MOSCOW_EVENTS: MeetEvent[] = [
     description: 'Дерзкий и откровенный стендап от Ольги Малащенко. Женский взгляд на мужские проблемы и наоборот.',
     category: 'Стендап',
     imageUrl: 'https://images.unsplash.com/photo-1478737270239-2fccd2c7fd14?w=800',
+    organizerId: 'org3',
     program: ['19:00 — Начало концерта'],
   },
   {
@@ -258,6 +321,7 @@ export const MOSCOW_EVENTS: MeetEvent[] = [
     description: 'Музыкальный стендап от мастера перевоплощений. Инструментальное сопровождение и острые шутки.',
     category: 'Стендап',
     imageUrl: 'https://images.unsplash.com/photo-1511671782779-c97d3d27a1d4?w=800',
+    organizerId: 'org3',
     program: ['19:00 — Стендап-шоу'],
   },
   {
@@ -273,6 +337,7 @@ export const MOSCOW_EVENTS: MeetEvent[] = [
     description: 'Простота, искренность и невероятный юмор Виктории Складчиковой в большом сольном шоу.',
     category: 'Стендап',
     imageUrl: 'https://images.unsplash.com/photo-1492684223066-81342ee5ff30?w=800',
+    organizerId: 'org3',
     program: ['19:00 — Начало'],
   },
   {
@@ -288,6 +353,7 @@ export const MOSCOW_EVENTS: MeetEvent[] = [
     description: 'Популярное шоу в живом формате. Комики и гости обсуждают самые странные вопросы с женских форумов.',
     category: 'Стендап',
     imageUrl: 'https://images.unsplash.com/photo-1524178232363-1fb28f74b671?w=800',
+    organizerId: 'org3',
     program: ['19:00 — Паблик-ток'],
   },
   {
@@ -303,6 +369,7 @@ export const MOSCOW_EVENTS: MeetEvent[] = [
     description: 'Турнир комиков на вылет. Зрители решают, кто пройдет в финал и заберет денежный приз.',
     category: 'Стендап',
     imageUrl: 'https://images.unsplash.com/photo-1502444330042-d1a1ddf9bb5b?w=800',
+    organizerId: 'org3',
     program: ['21:00 — Первый раунд', '22:30 — Оглашение результатов'],
   },
   {
@@ -318,6 +385,7 @@ export const MOSCOW_EVENTS: MeetEvent[] = [
     description: 'Философский стендап от Артура Шамгунова. О жизни, татарском воспитании и казанских буднях.',
     category: 'Стендап',
     imageUrl: 'https://images.unsplash.com/photo-1516280440614-37939bbacd81?w=800',
+    organizerId: 'org3',
     program: ['17:00 — Начало'],
   },
   {
@@ -333,6 +401,7 @@ export const MOSCOW_EVENTS: MeetEvent[] = [
     description: 'Сборный концерт лучших комиков страны. Каждую неделю новые лица и проверенные шутки.',
     category: 'Стендап',
     imageUrl: 'https://images.unsplash.com/photo-1551632432-c735e8299c52?w=800',
+    organizerId: 'org3',
     program: ['20:00 — Начало марафона'],
   },
   {
@@ -348,6 +417,7 @@ export const MOSCOW_EVENTS: MeetEvent[] = [
     description: 'Юмор без цензуры и границ. Только для взрослых и людей с крепкими нервами.',
     category: 'Стендап',
     imageUrl: 'https://images.unsplash.com/photo-1508700115892-45ecd05ae2ad?w=800',
+    organizerId: 'org3',
     program: ['23:00 — Ночное шоу'],
   },
   {
@@ -363,6 +433,7 @@ export const MOSCOW_EVENTS: MeetEvent[] = [
     description: 'Пафос, самоирония и великолепный юмор Андрея Бебуришвили в большом сольном концерте.',
     category: 'Стендап',
     imageUrl: 'https://images.unsplash.com/photo-1525206121484-9005fbcba71f?w=800',
+    organizerId: 'org3',
     program: ['19:00 — Начало шоу'],
   },
   {
@@ -378,6 +449,7 @@ export const MOSCOW_EVENTS: MeetEvent[] = [
     description: 'Артем Винокур с новой программой. Энергичный стендап о жизни в столице и не только.',
     category: 'Стендап',
     imageUrl: 'https://images.unsplash.com/photo-1501281668745-f7f57925c3b4?w=800',
+    organizerId: 'org3',
     program: ['20:00 — Начало'],
   },
   {
@@ -393,6 +465,7 @@ export const MOSCOW_EVENTS: MeetEvent[] = [
     description: 'Десятки комиков, сотни шуток. Кто-то станет звездой, а кто-то просто уйдет под стук сверчков.',
     category: 'Стендап',
     imageUrl: 'https://images.unsplash.com/photo-1516280440614-37939bbacd81?w=800',
+    organizerId: 'org3',
     program: ['18:00 — Старт микрофона'],
   },
 ];
