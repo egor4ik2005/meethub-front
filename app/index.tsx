@@ -2,7 +2,7 @@ import * as React from 'react';
 import { useState } from 'react';
 import { View, Text, Pressable, LayoutChangeEvent } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
-import { User, Bell, Plus } from 'lucide-react-native';
+import { User, Bell } from 'lucide-react-native';
 import { useRouter } from 'expo-router';
 import { MapScreen } from '../components/MapScreen';
 import { FeedScreen } from '../components/FeedScreen';
@@ -97,30 +97,6 @@ export default function Screen() {
 
       </View>
 
-      {/* FAB: create event */}
-      <Pressable
-        onPress={() => router.push('/create-event' as any)}
-        style={({ pressed }) => ({
-          position: 'absolute',
-          bottom: 24,
-          alignSelf: 'center',
-          width: 58,
-          height: 58,
-          borderRadius: 29,
-          backgroundColor: '#10b981',
-          alignItems: 'center',
-          justifyContent: 'center',
-          shadowColor: '#10b981',
-          shadowOpacity: 0.55,
-          shadowRadius: 14,
-          shadowOffset: { width: 0, height: 5 },
-          elevation: 12,
-          opacity: pressed ? 0.8 : 1,
-          zIndex: 100,
-        })}
-      >
-        <Plus size={28} color="#fff" strokeWidth={2.5} />
-      </Pressable>
     </SafeAreaView>
   );
 }
