@@ -6,6 +6,7 @@
 
  * OpenAPI spec version: 0.1.0
  */
+import type { LocationPayload } from './locationPayload';
 import type { VideoStatus } from './videoStatus';
 
 export interface VideoResponse {
@@ -13,6 +14,7 @@ export interface VideoResponse {
   author_id: string;
   description: string;
   hashtags: string[];
+  location?: LocationPayload;
   hls_url: string;
   /** @nullable */
   thumbnail_url?: string | null;

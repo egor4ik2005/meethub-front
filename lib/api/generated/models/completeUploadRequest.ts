@@ -6,10 +6,12 @@
 
  * OpenAPI spec version: 0.1.0
  */
+import type { LocationPayload } from './locationPayload';
 
 export interface CompleteUploadRequest {
   upload_id: string;
   /** @maxLength 5000 */
   description?: string;
   hashtags?: string[];
+  location?: LocationPayload;
 }

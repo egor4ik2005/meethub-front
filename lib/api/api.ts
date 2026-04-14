@@ -1,9 +1,11 @@
 import axios, { AxiosRequestConfig } from 'axios';
 import { useAuthStore } from '../store/useAuthStore';
 
-// We use the Gateway URL
+// Use the EXPO_PUBLIC_API_URL if defined, otherwise fallback to the computer's local IP
+const BASE_URL = process.env.EXPO_PUBLIC_API_URL || 'http://192.168.10.77:8080';
+
 export const AXIOS_INSTANCE = axios.create({
-  baseURL: 'http://localhost:8080',
+  baseURL: BASE_URL,
 });
 
 AXIOS_INSTANCE.interceptors.request.use((config) => {

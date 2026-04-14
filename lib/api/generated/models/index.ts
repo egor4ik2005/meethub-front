@@ -22,6 +22,7 @@ export * from './getForYouFeedParams';
 export * from './healthResponse';
 export * from './internalCreateVideoRequest';
 export * from './internalUpdateUploadStatusRequest';
+export * from './locationPayload';
 export * from './loginRequest';
 export * from './moderationItemResponse';
 export * from './moderationStatus';

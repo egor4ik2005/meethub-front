@@ -227,8 +227,9 @@ export default function CreateEventScreen() {
         await completeUpload({
           data: {
             upload_id: session.upload_id,
-            description: `${title}: ${description} | Категория: ${category} | Место: ${location} | Дата: ${dateText}`,
+            description: `${title}: ${description} | Категория: ${category} | Дата: ${dateText}`,
             hashtags: hashtagList,
+            location: location ? { name: location } : undefined,
           },
         });
 

@@ -6,12 +6,14 @@
 
  * OpenAPI spec version: 0.1.0
  */
+import type { LocationPayload } from './locationPayload';
 
 export interface InternalCreateVideoRequest {
   id: string;
   author_id: string;
   description?: string;
   hashtags?: string[];
+  location?: LocationPayload;
   hls_url: string;
   /** @nullable */
   thumbnail_url?: string | null;

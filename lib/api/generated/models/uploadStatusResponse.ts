@@ -6,6 +6,7 @@
 
  * OpenAPI spec version: 0.1.0
  */
+import type { LocationPayload } from './locationPayload';
 import type { UploadStatus } from './uploadStatus';
 
 export interface UploadStatusResponse {
@@ -13,6 +14,7 @@ export interface UploadStatusResponse {
   status: UploadStatus;
   /** @nullable */
   description?: string | null;
+  location?: LocationPayload;
   /** @nullable */
   error_message?: string | null;
   hashtags: string[];
